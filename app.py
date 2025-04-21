@@ -1,11 +1,11 @@
 import streamlit as st
-import openai
+from openai import OpenAI
 import os
 
-# Use OpenAI's new SDK v1.x
-client = openai.OpenAI(api_key=st.secrets.get("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY"))
+# Load OpenAI API key securely
+client = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
-# Load syllabus content
+# Syllabus content for the bot to reference
 syllabus_text = """
 FINA 300 – Financial Management
 Section 12: 9:05am – 10:00am
@@ -48,5 +48,4 @@ Answer:
             answer = response.choices[0].message.content.strip()
             st.success(answer)
         except Exception as e:
-            st.error(f"Something went wrong: {e}")
-
+            st.error(f"Error: {e}")
